@@ -18,4 +18,4 @@ class Neuron {
 }
 
 exports.Type = Type;
-exports.Neuron = Neuron
+exports.Neuron = Neuron;
