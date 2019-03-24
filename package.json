@@ -15,5 +15,6 @@
   "bugs": {
     "url": "https://github.com/SNavleen/NEATJS/issues"
   },
-  "homepage": "https://github.com/SNavleen/NEATJS#readme"
+  "homepage": "https://github.com/SNavleen/NEATJS#readme",
+  "dependencies": {}
 }
