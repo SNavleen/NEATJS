@@ -8,19 +8,8 @@ class GlobalSynapses {
       return this._synapses;
   }
 }
-class GlobalNeurons {
-
-  constructor () {
-      this._neurons = [];
-  }
-
-  get neurons () {
-      return this._neurons;
-  }
-}
 
 let globalSynapse = new GlobalSynapses();
-let globalNeurons = new GlobalNeurons();
 
 class Genome {
   constructor() {
@@ -39,9 +28,6 @@ class Genome {
   get global_synapses () {
     return this._global_synapses;
   }
-  get global_neurons () {
-    return this._global_neurons;
-  }
 
   neuronsSize () {
     return this._neurons.length;
@@ -52,9 +38,6 @@ class Genome {
   globalSynapsesSize () {
     return this._global_synapses.length;
   }
-  globalNeuronsSize () {
-    return this._global_neurons.length;
-  }
 
   pushNeuron (neuron) {
     this._neurons.push({ id: neuron.id, neuron: neuron });
@@ -64,9 +47,6 @@ class Genome {
   }
   pushGlobalSynapse (synapse) {
     this._global_synapses.push({ id: synapse.id, synapse: synapse });
-  }
-  pushGlobalNeuron (neuron) {
-    this._global_neurons.push({ id: neuron.id, neuron: neuron });
   }
 }
 

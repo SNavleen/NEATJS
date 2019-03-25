@@ -1,14 +1,3 @@
-class InnovationNumber {
-  constructor() {
-      this._id = 0;
-  }
-
-  get id() {
-      return this._id ++;
-  }
-}
-
-let innovationNumber = new InnovationNumber();
 const Type = {
   INPUT: "Input",
   HIDDEN: "Hidden",
