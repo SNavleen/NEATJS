@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="js/cytoscape.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
 
     <style>
         #cy {
@@ -16,34 +17,45 @@
             left: 0px;
         }
     </style>
+    <script>
+      let socket = io();
+    </script>
   </head>
   <body>
     <div id='cy'></div>
     <script>
-      var cy = cytoscape({
-        container: document.getElementById('cy'),
-				style: [
-					{
-						selector: 'node',
-						style: {
-              'label': 'data(label)',
-              'ghost': 'no'
-						}
-					},
-					{
-						selector: 'edge',
-						style: {
-							'label': 'data(label)',
-							'curve-style': 'bezier',
-							'target-arrow-shape': 'triangle'
-						}
-					}
-				],
-        elements: {
-          nodes: [],
-          edges: []
-        }
+      socket.on('genome', function (genome) {
+        let nodes = genome.nodes;
+        let edges = genome.edges;
+
+        var cy = cytoscape({
+          container: document.getElementById('cy'),
+          style: [
+            {
+              selector: 'node',
+              style: {
+                'label': 'data(label)',
+                'ghost': 'no'
+              }
+            },
+            {
+              selector: 'edge',
+              style: {
+                'label': 'data(label)',
+                'curve-style': 'bezier',
+                'target-arrow-shape': 'triangle'
+              }
+            }
+          ],
+          elements: {
+            nodes: nodes,
+            edges: edges
+          }
+        });
       });
+    </script>
+    <script>
+      
     </script>
   </body>
 

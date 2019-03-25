@@ -47,23 +47,6 @@ let childGenome = crossover.mating(genome2, genome1);
 // console.log(childGenome);
 
 
-let nodes = [];
-let edges = [];
-
-childGenome.neurons.forEach(neuron => {
-  // console.log(neuron);
-  nodes.push({data: {id: "neuron: " + neuron.neuron.id, label: neuron.neuron.type}});
-});
-
-childGenome.synapses.forEach(synapse => {
-  // console.log(synapse);
-  if (synapse.synapse.expressed) {
-    edges.push({data: {id: "synapse: " + synapse.synapse.id, label: synapse.synapse.weight, source: "neuron: " + synapse.synapse.in_neuron, target: "neuron: " + synapse.synapse.out_neuron}});
-  }
-});
-
-console.log(nodes);
-console.log(edges);
 
 
 // elements: {
@@ -75,21 +58,78 @@ console.log(edges);
 //     {data: {id: "e1", source: 0, target: 1 }},
 //   ]
 // }
-var express = require('express');
-var app = require('express')();
-app.set('view engine', 'ejs');
+let express = require('express');
+let app = express();
+let http = require('http').Server(app);
+let io = require('socket.io')(http);
 
-// what port to run server on
-app.listen(3000, function () {
-  console.log('Running on 3000');
-});
+app.set('view engine', 'ejs');
 
 //Serve static files
 app.use(express.static('public'));
 
 
+app.get('/child', function (req, res) {
+  let nodes = [];
+  let edges = [];
 
-//localhost will lead to craig.html
-app.get('/', function (req, res) {
+  childGenome.neurons.forEach(neuron => {
+    nodes.push({data: {id: "neuron: " + neuron.neuron.id, label: neuron.neuron.type}});
+  });
+
+  childGenome.synapses.forEach(synapse => {
+    if (synapse.synapse.expressed) {
+      edges.push({data: {id: "synapse: " + synapse.synapse.id, label: synapse.synapse.weight, source: "neuron: " + synapse.synapse.in_neuron, target: "neuron: " + synapse.synapse.out_neuron}});
+    }
+  });
+
+  io.on('connection', function (socket) {
+    socket.emit('genome', {nodes: nodes, edges: edges});
+  });
   res.render('index');
+});
+
+app.get('/parent1', function (req, res) {
+  let nodes = [];
+  let edges = [];
+
+  genome1.neurons.forEach(neuron => {
+    nodes.push({data: {id: "neuron: " + neuron.neuron.id, label: neuron.neuron.type}});
+  });
+
+  genome1.synapses.forEach(synapse => {
+    if (synapse.synapse.expressed) {
+      edges.push({data: {id: "synapse: " + synapse.synapse.id, label: synapse.synapse.weight, source: "neuron: " + synapse.synapse.in_neuron, target: "neuron: " + synapse.synapse.out_neuron}});
+    }
+  });
+
+  io.on('connection', function (socket) {
+    socket.emit('genome', {nodes: nodes, edges: edges});
+  });
+  res.render('index');
+});
+
+app.get('/parent2', function (req, res) {
+  let nodes = [];
+  let edges = [];
+
+  genome2.neurons.forEach(neuron => {
+    nodes.push({data: {id: "neuron: " + neuron.neuron.id, label: neuron.neuron.type}});
+  });
+
+  genome2.synapses.forEach(synapse => {
+    if (synapse.synapse.expressed) {
+      edges.push({data: {id: "synapse: " + synapse.synapse.id, label: synapse.synapse.weight, source: "neuron: " + synapse.synapse.in_neuron, target: "neuron: " + synapse.synapse.out_neuron}});
+    }
+  });
+
+  io.on('connection', function (socket) {
+    socket.emit('genome', {nodes: nodes, edges: edges});
+  });
+  res.render('index');
+});
+
+
+http.listen(3000, function(){
+  console.log('listening on *:3000');
 });
