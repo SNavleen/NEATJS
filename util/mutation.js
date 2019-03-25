@@ -41,7 +41,10 @@ class Mutation {
         // id: 3
       }
     )[0];
-
+    // if (input.neuron.type == Type.INPUT && output.neuron.type == Type.INPUT ||
+    //   input.neuron.type == Type.OUTPUT && output.neuron.type == Type.OUTPUT) {
+      
+    // }
     // Stop the links from hidden-input/ output-hidden/ output-input from happening
     if (input.neuron.type == Type.HIDDEN && output.neuron.type == Type.INPUT ||
         input.neuron.type == Type.OUTPUT && output.neuron.type == Type.HIDDEN ||
@@ -55,7 +58,14 @@ class Mutation {
 
     // Check if synapse with the same input and output neuron exist
     // TODO: should i be checking the global or local synapses? (if so create a global)
-    let synapseExists = genome.synapses.some (
+    let synapseExistsInGlobal = genome.global_synapses.some (
+      _checkIfSynapseExists,
+      {
+        in_neuron: input.neuron,
+        out_neuron: output.neuron
+      }
+    );
+    let synapseExistsInLocal = genome.synapses.some (
       _checkIfSynapseExists,
       {
         in_neuron: input.neuron,
@@ -64,7 +74,7 @@ class Mutation {
     );
 
     // Do nothing if that synapseExists
-    if (synapseExists) {
+    if (synapseExistsInGlobal && synapseExistsInLocal) {
       return;
     }
 
@@ -73,10 +83,16 @@ class Mutation {
 
     // Weight for the new Synapse between -2 and 2
     new_synapse.weight = util.randRangeFloat(-2, 2);
-    // console.log(new_synapse);
 
-    // Add the synapse to the genome list of synapses
-    genome.pushSynapse(new_synapse);
+    if(synapseExistsInGlobal && !synapseExistsInLocal) {
+      // Add the synapse to the genome list of synapses
+      genome.pushSynapse(new_synapse);
+    }
+    if(!synapseExistsInGlobal && !synapseExistsInLocal) {
+      // Add the synapse to the genome list of synapses
+      genome.pushSynapse(new_synapse);
+      genome.pushGlobalSynapse(new_synapse);
+    }
   }
 
   addNeuron (genome) {
@@ -109,10 +125,10 @@ class Mutation {
     let new_synapse2 = new Synapse(new_neuron, out_neuron, weight);
 
     // Add the new neuron to the genome list of neurons
-    this.pushNeuron(new_neuron);
+    genome.pushNeuron(new_neuron);
     // Add the two new synapse to the genome list of synapses
-    this.pushSynapse(new_synapse1);
-    this.pushSynapse(new_synapse2);
+    genome.pushSynapse(new_synapse1);
+    genome.pushSynapse(new_synapse2);
   }
 }
 

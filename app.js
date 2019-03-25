@@ -44,20 +44,21 @@ genome2.pushSynapse(new Synapse(1, 6, 1, true, 10));
 let childGenome = crossover.mating(genome2, genome1);
 
 
+// console.log("Genome1: ");
+// console.log(genome1.synapses);
+// console.log("\n");
+// console.log("Genome2: ");
+// console.log(genome2.synapses);
+// console.log("\n");
+// console.log("Genome Global: ");
+// console.log(genome1.global_synapses);
+// console.log(genome1);
+// console.log(genome2);
 // console.log(childGenome);
 
 
 
 
-// elements: {
-//   nodes:[
-//     {data: { id: 0 }},
-//     {data: { id: 1 }},
-//   ],
-//   edges:[
-//     {data: {id: "e1", source: 0, target: 1 }},
-//   ]
-// }
 let express = require('express');
 let app = express();
 let http = require('http').Server(app);
@@ -74,12 +75,28 @@ app.get('/child', function (req, res) {
   let edges = [];
 
   childGenome.neurons.forEach(neuron => {
-    nodes.push({data: {id: "neuron: " + neuron.neuron.id, label: neuron.neuron.type}});
+    nodes.push(
+      {
+        data: {
+          id: "neuron: " + neuron.neuron.id,
+          label: neuron.neuron.type
+        }
+      }
+    );
   });
 
   childGenome.synapses.forEach(synapse => {
     if (synapse.synapse.expressed) {
-      edges.push({data: {id: "synapse: " + synapse.synapse.id, label: synapse.synapse.weight, source: "neuron: " + synapse.synapse.in_neuron, target: "neuron: " + synapse.synapse.out_neuron}});
+      edges.push(
+        {
+          data: {
+            id: "synapse: " + synapse.synapse.id,
+            label: synapse.synapse.weight,
+            source: "neuron: " + synapse.synapse.in_neuron,
+            target: "neuron: " + synapse.synapse.out_neuron
+          }
+        }
+      );
     }
   });
 
@@ -94,12 +111,28 @@ app.get('/parent1', function (req, res) {
   let edges = [];
 
   genome1.neurons.forEach(neuron => {
-    nodes.push({data: {id: "neuron: " + neuron.neuron.id, label: neuron.neuron.type}});
+    nodes.push(
+      {
+        data: {
+          id: "neuron: " + neuron.neuron.id,
+          label: neuron.neuron.type
+        }
+      }
+    );
   });
 
   genome1.synapses.forEach(synapse => {
     if (synapse.synapse.expressed) {
-      edges.push({data: {id: "synapse: " + synapse.synapse.id, label: synapse.synapse.weight, source: "neuron: " + synapse.synapse.in_neuron, target: "neuron: " + synapse.synapse.out_neuron}});
+      edges.push(
+        {
+          data: {
+            id: "synapse: " + synapse.synapse.id,
+            label: synapse.synapse.weight,
+            source: "neuron: " + synapse.synapse.in_neuron,
+            target: "neuron: " + synapse.synapse.out_neuron
+          }
+        }
+      );
     }
   });
 
@@ -114,12 +147,28 @@ app.get('/parent2', function (req, res) {
   let edges = [];
 
   genome2.neurons.forEach(neuron => {
-    nodes.push({data: {id: "neuron: " + neuron.neuron.id, label: neuron.neuron.type}});
+    nodes.push(
+      {
+        data: {
+          id: "neuron: " + neuron.neuron.id,
+          label: neuron.neuron.type
+        }
+      }
+    );
   });
 
   genome2.synapses.forEach(synapse => {
     if (synapse.synapse.expressed) {
-      edges.push({data: {id: "synapse: " + synapse.synapse.id, label: synapse.synapse.weight, source: "neuron: " + synapse.synapse.in_neuron, target: "neuron: " + synapse.synapse.out_neuron}});
+      edges.push(
+        {
+          data: {
+            id: "synapse: " + synapse.synapse.id,
+            label: synapse.synapse.weight,
+            source: "neuron: " + synapse.synapse.in_neuron,
+            target: "neuron: " + synapse.synapse.out_neuron
+          }
+        }
+      );
     }
   });
 
