@@ -3,48 +3,20 @@ let { Neuron, Type } = require("../models/Neuron");
 let { Synapse } = require("../models/Synapse");
 
 
-// Get a randome neuron from the neurons array of objects
-function _getRandomNeuron (neuron) {
-  return neuron.id === this.id ? neuron : null;
-}
-// Get a randome synapse from the synapses array of objects
-function _getRandomSynapse (synapse) {
-  return synapse.id === this.id ? synapse : null;
-}
-// Compare all the synapse with the new input and output neuron
-function _checkIfSynapseExists (synapse) {
-  if (synapse.synapse.in_neuron === this.in_neuron &&
-    synapse.synapse.out_neuron === this.out_neuron) {
-      return true;
-  }
-  return false;
-}
-
-
 class Mutation {
 
   addSynapse (genome) {
     // TODO: input and output both can not be input or output neuron
-    // Get a random input neuron
-    let input = genome.neurons.filter (
-      _getRandomNeuron,
-      {
-        id: util.randRangeInt(0, genome.neuronsSize())
-        // id: 0
-      }
-    )[0];
-    // Get a random output neuron
-    let output = genome.neurons.filter (
-      _getRandomNeuron,
-      {
-        id: util.randRangeInt(0, genome.neuronsSize())
-        // id: 3
-      }
-    )[0];
-    // if (input.neuron.type == Type.INPUT && output.neuron.type == Type.INPUT ||
-    //   input.neuron.type == Type.OUTPUT && output.neuron.type == Type.OUTPUT) {
+    // Following is a possible solution
+    // // if (input.neuron.type == Type.INPUT && output.neuron.type == Type.INPUT ||
+    // //   input.neuron.type == Type.OUTPUT && output.neuron.type == Type.OUTPUT) {
       
-    // }
+    // // }
+    // Get a random input neuron
+    let input = genome.getRandomNeuron();
+    // Get a random output neuron
+    let output = genome.getRandomNeuron();
+
     // Stop the links from hidden-input/ output-hidden/ output-input from happening
     if (input.neuron.type == Type.HIDDEN && output.neuron.type == Type.INPUT ||
         input.neuron.type == Type.OUTPUT && output.neuron.type == Type.HIDDEN ||
@@ -57,21 +29,8 @@ class Mutation {
     }
 
     // Check if synapse with the same input and output neuron exist
-    // TODO: should i be checking the global or local synapses? (if so create a global)
-    let synapseExistsInGlobal = genome.global_synapses.some (
-      _checkIfSynapseExists,
-      {
-        in_neuron: input.neuron,
-        out_neuron: output.neuron
-      }
-    );
-    let synapseExistsInLocal = genome.synapses.some (
-      _checkIfSynapseExists,
-      {
-        in_neuron: input.neuron,
-        out_neuron: output.neuron
-      }
-    );
+    let synapseExistsInGlobal = genome.checkIfSynapseExists(genome.global_synapses, input.neuron, output.neuron);
+    let synapseExistsInLocal = genome.checkIfSynapseExists(genome.synapses, input.neuron, output.neuron);
 
     // Do nothing if that synapseExists
     if (synapseExistsInGlobal && synapseExistsInLocal) {
