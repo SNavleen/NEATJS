@@ -1,27 +1,7 @@
-let { Neuron, Type } = require("./Neuron");
-let { Synapse } = require("./Synapse");
-let { Mutation } = require("../util/mutation");
-
-class Genome extends Mutation {
+class Genome {
   constructor() {
-    super();
-
     this._neurons = [];
     this._synapses = [];
-
-    this._Type = Type;
-    this._Neuron = Neuron;
-    this._Synapse = Synapse;
-  }
-
-  get Type () {
-    return this._Type;
-  }
-  get Neuron () {
-    return this._Neuron;
-  }
-  get Synapse () {
-    return this._Synapse;
   }
 
   get neurons () {

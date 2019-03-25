@@ -1,4 +1,6 @@
 let util = require('./util');
+let { Neuron, Type } = require("../models/Neuron");
+let { Synapse } = require("../models/Synapse");
 
 
 // Get a randome neuron from the neurons array of objects
@@ -21,29 +23,29 @@ function _checkIfSynapseExists (synapse) {
 
 class Mutation {
 
-  addSynapse () {
+  addSynapse (genome) {
     // TODO: input and output both can not be input or output neuron
     // Get a random input neuron
-    let input = this.neurons.filter (
+    let input = genome.neurons.filter (
       _getRandomNeuron,
       {
-        id: util.randRangeInt(0, this.neuronsSize())
+        id: util.randRangeInt(0, genome.neuronsSize())
         // id: 0
       }
     )[0];
     // Get a random output neuron
-    let output = this.neurons.filter (
+    let output = genome.neurons.filter (
       _getRandomNeuron,
       {
-        id: util.randRangeInt(0, this.neuronsSize())
+        id: util.randRangeInt(0, genome.neuronsSize())
         // id: 3
       }
     )[0];
 
     // Stop the links from hidden-input/ output-hidden/ output-input from happening
-    if (input.neuron.type == this.Type.HIDDEN && output.neuron.type == this.Type.INPUT ||
-        input.neuron.type == this.Type.OUTPUT && output.neuron.type == this.Type.HIDDEN ||
-        input.neuron.type == this.Type.OUTPUT && output.neuron.type == this.Type.INPUT) {
+    if (input.neuron.type == Type.HIDDEN && output.neuron.type == Type.INPUT ||
+        input.neuron.type == Type.OUTPUT && output.neuron.type == Type.HIDDEN ||
+        input.neuron.type == Type.OUTPUT && output.neuron.type == Type.INPUT) {
 
       // Use a tmp variable to swap input and output neuron
       let tmp = input;
@@ -53,7 +55,7 @@ class Mutation {
 
     // Check if synapse with the same input and output neuron exist
     // TODO: should i be checking the global or local synapses? (if so create a global)
-    let synapseExists = this.synapses.some (
+    let synapseExists = genome.synapses.some (
       _checkIfSynapseExists,
       {
         in_neuron: input.neuron,
@@ -67,24 +69,24 @@ class Mutation {
     }
 
     // Create the new synapse if it doesnt already exist
-    let new_synapse = new this.Synapse(input.neuron, output.neuron);
+    let new_synapse = new Synapse(input.neuron, output.neuron);
 
     // Weight for the new Synapse between -2 and 2
     new_synapse.weight = util.randRangeFloat(-2, 2);
     // console.log(new_synapse);
 
     // Add the synapse to the genome list of synapses
-    this.pushSynapse(new_synapse);
+    genome.pushSynapse(new_synapse);
   }
 
-  addNeuron () {
+  addNeuron (genome) {
     // Exit if we have 0 synapse
-    if (this.synapsesSize() == 0) {
+    if (genome.synapsesSize() == 0) {
       return
     }
 
     // Get a random synapse
-    let synapse = this.synapses[util.randRangeInt(0, this.synapsesSize())];
+    let synapse = genome.synapses[util.randRangeInt(0, genome.synapsesSize())];
 
     // Cannot split a disabled neuron
     if (!synapse.synapse.expressed) {
@@ -102,9 +104,9 @@ class Mutation {
     synapse.synapse.expressed = false;
 
     // Create a new neuron and two new syanpse
-    let new_neuron = new this.Neuron(this.neuronsSize(), this.Type.HIDDEN);
-    let new_synapse1 = new this.Synapse(in_neuron, new_neuron, 1);
-    let new_synapse2 = new this.Synapse(new_neuron, out_neuron, weight);
+    let new_neuron = new Neuron(genome.neuronsSize(), Type.HIDDEN);
+    let new_synapse1 = new Synapse(in_neuron, new_neuron, 1);
+    let new_synapse2 = new Synapse(new_neuron, out_neuron, weight);
 
     // Add the new neuron to the genome list of neurons
     this.pushNeuron(new_neuron);

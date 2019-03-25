@@ -16,5 +16,10 @@
     "url": "https://github.com/SNavleen/NEATJS/issues"
   },
   "homepage": "https://github.com/SNavleen/NEATJS#readme",
-  "dependencies": {}
+  "dependencies": {
+    "bower": "^1.8.8",
+    "cytoscape": "^3.5.0",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4"
+  }
 }

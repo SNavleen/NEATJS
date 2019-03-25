@@ -2,8 +2,8 @@ let { InnovationNumber } = require("./InnovationNumber");
 // let innovationNumber =  new InnovationNumber().instance;
 
 class Synapse {
-  constructor(in_neuron = null, out_neuron = null, weight = 0, expressed = true) {
-    this._id = InnovationNumber.id;
+  constructor(in_neuron = null, out_neuron = null, weight = 0, expressed = true, id = InnovationNumber.id) {
+    this._id = id;
     this._in_neuron = in_neuron;
     this._out_neuron = out_neuron;
     this._weight = weight;
