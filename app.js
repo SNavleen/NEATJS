@@ -15,13 +15,13 @@ let genome1 = new Genome();
 for (let i = 0; i < 5; i++) {
   genome1.pushNeuron(new Neuron(i, Type.INPUT));
 }
-for (let i = 5; i < 10; i++) {
+for (let i = 5; i < 7; i++) {
   genome1.pushNeuron(new Neuron(i, Type.OUTPUT));
 }
-for (let i = 10; i < 15; i++) {
+for (let i = 7; i < 10; i++) {
   genome1.pushNeuron(new Neuron(i, Type.HIDDEN));
 }
-for (let i = 0; i < 15; i++) {
+for (let i = 0; i < 10; i++) {
   mutation.addSynapse(genome1);
 }
 // genome1.pushSynapse(new Synapse(1, 4, 1, true, 1));
@@ -35,13 +35,13 @@ let genome2 = new Genome();
 for (let i = 0; i < 5; i++) {
   genome2.pushNeuron(new Neuron(i, Type.INPUT));
 }
-for (let i = 5; i < 10; i++) {
+for (let i = 5; i < 7; i++) {
   genome2.pushNeuron(new Neuron(i, Type.OUTPUT));
 }
-for (let i = 10; i < 15; i++) {
+for (let i = 7; i < 10; i++) {
   genome2.pushNeuron(new Neuron(i, Type.HIDDEN));
 }
-for (let i = 0; i < 15; i++) {
+for (let i = 0; i < 10; i++) {
   mutation.addSynapse(genome2);
 }
 // genome2.pushSynapse(new Synapse(1, 4, 1, true, 1));

@@ -6,16 +6,21 @@ let { Synapse } = require("../models/Synapse");
 class Mutation {
 
   addSynapse (genome) {
-    // TODO: input and output both can not be input or output neuron
-    // Following is a possible solution
-    // // if (input.neuron.type == Type.INPUT && output.neuron.type == Type.INPUT ||
-    // //   input.neuron.type == Type.OUTPUT && output.neuron.type == Type.OUTPUT) {
-      
-    // // }
     // Get a random input neuron
     let input = genome.getRandomNeuron();
     // Get a random output neuron
     let output = genome.getRandomNeuron();
+    while (true) {
+      if (input.neuron.type == Type.INPUT && output.neuron.type == Type.INPUT ||
+        input.neuron.type == Type.OUTPUT && output.neuron.type == Type.OUTPUT) {
+          // Get a random input neuron
+          input = genome.getRandomNeuron();
+          // Get a random output neuron
+          output = genome.getRandomNeuron();
+      } else {
+        break;
+      }
+    }
 
     // Stop the links from hidden-input/ output-hidden/ output-input from happening
     if (input.neuron.type == Type.HIDDEN && output.neuron.type == Type.INPUT ||
