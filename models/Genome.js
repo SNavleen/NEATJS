@@ -1,13 +1,5 @@
 let util = require('../util/util');
 
-// Compare all the synapse with the new input and output neuron
-function _checkIfSynapseExists (synapse) {
-  if (synapse.synapse.in_neuron === this.in_neuron &&
-    synapse.synapse.out_neuron === this.out_neuron) {
-      return true;
-  }
-  return false;
-}
 // Get a randome synapse from the synapses array of objects
 function _getRandomSynapse (synapse) {
   return synapse.id === this.id ? synapse : null;
@@ -69,14 +61,20 @@ class Genome {
     this._global_synapses.push({ id: synapse.id, synapse: synapse });
   }
 
-  checkIfSynapseExists (synapses, in_neuron, out_neuron) {
-    return synapses.some (
-      _checkIfSynapseExists,
-      {
-        in_neuron: in_neuron,
-        out_neuron: out_neuron
+  // Compare all the synapse with the new input and output neuron
+  getSynapse (synapses, in_neuron, out_neuron) {
+    let synapse = null;
+    // console.log("synapses");
+    // console.log(synapses);
+    for (var i = 0; i < synapses.length; i++) {
+      if (synapses[i].synapse.in_neuron.id == in_neuron.id &&
+        synapses[i].synapse.in_neuron.type == in_neuron.type &&
+        synapses[i].synapse.out_neuron.id == out_neuron.id &&
+        synapses[i].synapse.out_neuron.type == out_neuron.type) {
+          // console.log(synapses[i].synapse);
+          return synapses[i].synapse;
       }
-    );
+    }
   }
   getRandomNeuron () {
     return this.neurons.filter (

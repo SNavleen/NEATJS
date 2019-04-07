@@ -5,7 +5,7 @@ let { Synapse } = require("../models/Synapse");
 
 class Mutation {
 
-  addSynapse (genome) {
+  async addSynapse (genome) {
     // Get a random input neuron
     let input = genome.getRandomNeuron();
     // Get a random output neuron
@@ -34,25 +34,29 @@ class Mutation {
     }
 
     // Check if synapse with the same input and output neuron exist
-    let synapseExistsInGlobal = genome.checkIfSynapseExists(genome.global_synapses, input.neuron, output.neuron);
-    let synapseExistsInLocal = genome.checkIfSynapseExists(genome.synapses, input.neuron, output.neuron);
+    let synapseExistsInLocal = genome.getSynapse(genome.synapses, input.neuron, output.neuron) == undefined ? false : true;
+    let synapseExistsInGlobal = genome.getSynapse(genome.global_synapses, input.neuron, output.neuron) == undefined ? false : true;
 
     // Do nothing if that synapseExists
     if (synapseExistsInGlobal && synapseExistsInLocal) {
       return;
     }
-
-    // Create the new synapse if it doesnt already exist
-    let new_synapse = new Synapse(input.neuron, output.neuron);
-
-    // Weight for the new Synapse between -2 and 2
-    new_synapse.weight = util.randRangeFloat(-2, 2);
+    // // Create the new synapse if it doesnt already exist
+    // let new_synapse = new Synapse(input.neuron, output.neuron, util.randRangeFloat(-2, 2));
 
     if(synapseExistsInGlobal && !synapseExistsInLocal) {
+      let synapse = genome.getSynapse (genome.global_synapses, input.neuron, output.neuron);
+      // Get synapse that exists in global array and modify it for the local version
+      // console.log(synapse.id);
+      let new_synapse = new Synapse(input.neuron, output.neuron, util.randRangeFloat(-2, 2), synapse.expressed, synapse.id);
+
       // Add the synapse to the genome list of synapses
       genome.pushSynapse(new_synapse);
     }
     if(!synapseExistsInGlobal && !synapseExistsInLocal) {
+      // Create the new synapse if it doesnt already exist
+      let new_synapse = new Synapse(input.neuron, output.neuron, util.randRangeFloat(-2, 2));
+
       // Add the synapse to the genome list of synapses
       genome.pushSynapse(new_synapse);
       genome.pushGlobalSynapse(new_synapse);

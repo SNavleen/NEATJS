@@ -12,16 +12,16 @@ let crossover = new Crossover();
 // let species = new Species();
 
 let genome1 = new Genome();
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 3; i++) {
   genome1.pushNeuron(new Neuron(i, Type.INPUT));
 }
-for (let i = 5; i < 7; i++) {
+for (let i = 3; i < 4; i++) {
   genome1.pushNeuron(new Neuron(i, Type.OUTPUT));
 }
-for (let i = 7; i < 10; i++) {
+for (let i = 4; i < 7; i++) {
   genome1.pushNeuron(new Neuron(i, Type.HIDDEN));
 }
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 5; i++) {
   mutation.addSynapse(genome1);
 }
 // genome1.pushSynapse(new Synapse(1, 4, 1, true, 1));
@@ -32,16 +32,16 @@ for (let i = 0; i < 10; i++) {
 // genome1.pushSynapse(new Synapse(1, 5, 1, true, 8));
 
 let genome2 = new Genome();
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 3; i++) {
   genome2.pushNeuron(new Neuron(i, Type.INPUT));
 }
-for (let i = 5; i < 7; i++) {
+for (let i = 3; i < 4; i++) {
   genome2.pushNeuron(new Neuron(i, Type.OUTPUT));
 }
-for (let i = 7; i < 10; i++) {
+for (let i = 4; i < 7; i++) {
   genome2.pushNeuron(new Neuron(i, Type.HIDDEN));
 }
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 5; i++) {
   mutation.addSynapse(genome2);
 }
 // genome2.pushSynapse(new Synapse(1, 4, 1, true, 1));
@@ -60,13 +60,19 @@ let childGenome = crossover.mating(genome2, genome1);
 console.log("Genome1: ");
 console.log(genome1.neurons);
 console.log(genome1.synapses);
+genome1.synapses.forEach(element => {
+  console.log(element);
+});
 console.log("\n");
 console.log("Genome2: ");
 console.log(genome2.neurons);
 console.log(genome2.synapses);
-console.log("\n");
-console.log("Genome Global: ");
-console.log(genome1.global_synapses);
+genome2.synapses.forEach(element => {
+  console.log(element);
+});
+// console.log("\n");
+// console.log("Genome Global: ");
+// console.log(genome1.global_synapses);
 // console.log(genome1);
 // console.log(genome2);
 // console.log(childGenome);
