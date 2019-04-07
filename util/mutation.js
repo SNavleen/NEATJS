@@ -45,14 +45,26 @@ class Mutation {
     // let new_synapse = new Synapse(input.neuron, output.neuron, util.randRangeFloat(-2, 2));
 
     if(synapseExistsInGlobal && !synapseExistsInLocal) {
-      let synapse = genome.getSynapse (genome.global_synapses, input.neuron, output.neuron);
       // Get synapse that exists in global array and modify it for the local version
-      // console.log(synapse.id);
-      let new_synapse = new Synapse(input.neuron, output.neuron, util.randRangeFloat(-2, 2), synapse.expressed, synapse.id);
+      let synapse = genome.getSynapse (genome.global_synapses, input.neuron, output.neuron);
+
+      // (5 different ways to clone a object)
+      // 1.1 // let new_synapse = Object.assign({__proto__: synapse.__proto__}, synapse);
+      // 2.1 // let new_synapse = Object.assign({}, synapse);
+      // 2.2 // new_synapse.__proto__ = synapse.__proto__;
+      // 3.1 // let new_synapse = { ...synapse };
+      // 3.2 // new_synapse.__proto__ = synapse.__proto__;
+      // 4.1 // let new_synapse = new Synapse(input.neuron, output.neuron, util.randRangeFloat(-2, 2), synapse.expressed, synapse.id);
+      // 5.1 // let new_synapse = synapse.copy();
+      // 5.2 // copy() { return new Synapse (this._in_neuron, this._out_neuron, this._weight, this._expressed, this._id); }
+      let new_synapse = synapse.copy();
+
+      synapse.weight = util.randRangeFloat(-2, 2);
 
       // Add the synapse to the genome list of synapses
       genome.pushSynapse(new_synapse);
     }
+
     if(!synapseExistsInGlobal && !synapseExistsInLocal) {
       // Create the new synapse if it doesnt already exist
       let new_synapse = new Synapse(input.neuron, output.neuron, util.randRangeFloat(-2, 2));

@@ -41,6 +41,10 @@ class Synapse {
   set expressed (value){
     this._expressed = value;
   }
+
+  copy() {
+    return new Synapse (this._in_neuron, this._out_neuron, this._weight, this._expressed, this._id);
+  }
 }
 
 exports.Synapse = Synapse
