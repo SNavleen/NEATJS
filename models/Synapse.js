@@ -45,6 +45,19 @@ class Synapse {
   copy() {
     return new Synapse (this._in_neuron, this._out_neuron, this._weight, this._expressed, this._id);
   }
+
+  clone() {
+    var proto = Object.getPrototypeOf(this);
+    var clone = Object.create(proto);
+
+    clone._in_neuron = this._in_neuron;
+    clone._out_neuron = this._out_neuron;
+    clone._weight = this._weight;
+    clone._expressed = this._expressed;
+    clone._id = this._id;
+
+    return clone;
+  }
 }
 
 exports.Synapse = Synapse

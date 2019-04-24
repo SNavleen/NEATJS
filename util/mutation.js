@@ -48,7 +48,7 @@ class Mutation {
       // Get synapse that exists in global array and modify it for the local version
       let synapse = genome.getSynapse (genome.global_synapses, input.neuron, output.neuron);
 
-      // (5 different ways to clone a object)
+      // (6 different ways to clone a object)
       // 1.1 // let new_synapse = Object.assign({__proto__: synapse.__proto__}, synapse);
       // 2.1 // let new_synapse = Object.assign({}, synapse);
       // 2.2 // new_synapse.__proto__ = synapse.__proto__;
@@ -56,10 +56,10 @@ class Mutation {
       // 3.2 // new_synapse.__proto__ = synapse.__proto__;
       // 4.1 // let new_synapse = new Synapse(input.neuron, output.neuron, util.randRangeFloat(-2, 2), synapse.expressed, synapse.id);
       // 5.1 // let new_synapse = synapse.copy();
-      // 5.2 // copy() { return new Synapse (this._in_neuron, this._out_neuron, this._weight, this._expressed, this._id); }
-      let new_synapse = synapse.copy();
+      // 6.1 // let new_synapse = synapse.clone();
+      let new_synapse = synapse.clone();
 
-      synapse.weight = util.randRangeFloat(-2, 2);
+      new_synapse.weight = util.randRangeFloat(-2, 2);
 
       // Add the synapse to the genome list of synapses
       genome.pushSynapse(new_synapse);
