@@ -1,60 +1,28 @@
-class InnovationNumber {
-  constructor() {
-      this._id = 0;
-  }
-
-  get id() {
-      return this._id ++;
-  }
-}
-
+let { InnovationNumber } = require("./InnovationNumber");
 let innovationNumber = new InnovationNumber();
 
 class Synapse {
   constructor(in_neuron = null, out_neuron = null, weight = 0, expressed = true, id = innovationNumber.id) {
-    this._id = id;
-    this._in_neuron = in_neuron;
-    this._out_neuron = out_neuron;
-    this._weight = weight;
-    this._expressed = expressed;
-  }
-
-  get id (){
-    return this._id;
-  }
-  get in_neuron (){
-    return this._in_neuron;
-  }
-  get out_neuron (){
-    return this._out_neuron;
-  }
-  get weight (){
-    return this._weight;
-  }
-  get expressed (){
-    return this._expressed;
-  }
-
-  set weight (value){
-    this._weight = value;
-  }
-  set expressed (value){
-    this._expressed = value;
+    this.id = id;
+    this.in_neuron = in_neuron;
+    this.out_neuron = out_neuron;
+    this.weight = weight;
+    this.expressed = expressed;
   }
 
   copy() {
-    return new Synapse (this._in_neuron, this._out_neuron, this._weight, this._expressed, this._id);
+    return new Synapse (this.in_neuron, this.out_neuron, this.weight, this.expressed, this.id);
   }
 
   clone() {
     var proto = Object.getPrototypeOf(this);
     var clone = Object.create(proto);
 
-    clone._in_neuron = this._in_neuron;
-    clone._out_neuron = this._out_neuron;
-    clone._weight = this._weight;
-    clone._expressed = this._expressed;
-    clone._id = this._id;
+    clone.in_neuron = this.in_neuron;
+    clone.out_neuron = this.out_neuron;
+    clone.weight = this.weight;
+    clone.expressed = this.expressed;
+    clone.id = this.id;
 
     return clone;
   }

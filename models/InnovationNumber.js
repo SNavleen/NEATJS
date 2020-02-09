@@ -23,4 +23,4 @@ class InnovationNumber {
 
 // }
 
-module.exports.InnovationNumber = new InnovationNumber();
+module.exports.InnovationNumber = InnovationNumber;

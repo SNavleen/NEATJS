@@ -1,19 +1,23 @@
-class Species {
-  constructor() {
-    this._genomes = [];
-  }
+let { InnovationNumber } = require("./InnovationNumber");
+let innovationNumber = new InnovationNumber();
 
-  get genomes () {
-    return this._genomes;
+class Species {
+  constructor(averageFitness = 0, sumAdjustedFitness = 0, extinctionCounter = 0, id = innovationNumber.id) {
+    this.id = id;
+    this.genomes = [];
+    this.averageFitness = averageFitness;
+    this.sumAdjustedFitness = sumAdjustedFitness;
+    this.extinctionCounter = extinctionCounter;
+    this.candidateGenome = [];
   }
 
   genomesSize () {
-    return this._genomes.length;
+    return this.genomes.length;
   }
 
-  // pushGenome (genome) {
-  //   this._genomes.push(genome);
-  // }
+  pushGenome (genome) {
+    this.genomes.push(genome);
+  }
 }
 
 exports.Species = Species;

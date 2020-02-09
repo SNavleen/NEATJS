@@ -13,52 +13,42 @@ function _getRandomNeuron (neuron) {
 class GlobalSynapses {
 
   constructor () {
-      this._synapses = [];
-  }
-
-  get synapses () {
-      return this._synapses;
+      this.synapses = [];
   }
 }
 
+let { InnovationNumber } = require("./InnovationNumber");
+let innovationNumber = new InnovationNumber();
 let globalSynapse = new GlobalSynapses();
 
-
 class Genome {
-  constructor() {
-    this._neurons = [];
-    this._synapses = [];
-    this._global_synapses = globalSynapse.synapses;
-  }
-
-  get neurons () {
-    return this._neurons;
-  }
-  get synapses () {
-    return this._synapses;
-  }
-  get global_synapses () {
-    return this._global_synapses;
+  constructor(fitness = 0, adjusted_fitness = 0, id = innovationNumber.id) {
+    this.id = id;
+    this.fitness = fitness;
+    this.adjusted_fitness = adjusted_fitness;
+    this.neurons = [];
+    this.synapses = [];
+    this.global_synapses = globalSynapse.synapses;
   }
 
   neuronsSize () {
-    return this._neurons.length;
+    return this.neurons.length;
   }
   synapsesSize () {
-    return this._synapses.length;
+    return this.synapses.length;
   }
   globalSynapsesSize () {
-    return this._global_synapses.length;
+    return this.global_synapses.length;
   }
 
   pushNeuron (neuron) {
-    this._neurons.push({ id: neuron.id, neuron: neuron });
+    this.neurons.push({ id: neuron.id, neuron: neuron });
   }
   pushSynapse (synapse) {
-    this._synapses.push({ id: synapse.id, synapse: synapse });
+    this.synapses.push({ id: synapse.id, synapse: synapse });
   }
   pushGlobalSynapse (synapse) {
-    this._global_synapses.push({ id: synapse.id, synapse: synapse });
+    this.global_synapses.push({ id: synapse.id, synapse: synapse });
   }
 
   // Compare all the synapse with the new input and output neuron
@@ -80,7 +70,7 @@ class Genome {
     return this.neurons.filter (
       _getRandomNeuron,
       {
-        id: util.randRangeInt(0, this._neurons.length)
+        id: util.randRangeInt(0, this.neurons.length)
       }
     )[0];
   }

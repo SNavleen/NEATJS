@@ -6,14 +6,8 @@ const Type = {
 
 class Neuron {
   constructor(id = 0, type = null) {
-    this._id = id;
-    this._type = type;
-  }
-  get id (){
-    return this._id;
-  }
-  get type (){
-    return this._type;
+    this.id = id;
+    this.type = type;
   }
 }
 
